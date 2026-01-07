@@ -1,0 +1,109 @@
+# **Cahier des Charges Détaillé**
+
+## 1. Le Dataset (Données)
+
+Le dataset **Credit Fraud Detector** s’appuie sur un jeu de données de transactions par carte bancaire visant à détecter les opérations frauduleuses. Le dataset est fortement déséquilibré : la classe *Non-Fraud* est largement majoritaire par rapport à la classe *Fraud*.
+
+**Caractéristiques principales :**
+
+* Variables numériques issues d’une transformation PCA (V1 à V28).
+* Variables temporelles et de montant (*Time*, *Amount*).
+* Variable cible binaire : **Class** (0 = Non-Fraud, 1 = Fraud).
+
+Ce type de données est représentatif des problématiques réelles de fraude bancaire, où les fraudes sont rares mais critiques.
+
+---
+
+## 2. Analyse des données du Dataset
+
+### 2.1 Analyse descriptive et exploratoire (EDA)
+
+L’analyse exploratoire constitue une étape clé du dataset. Elle permet de :
+
+* Comprendre la distribution des variables.
+* Identifier les différences statistiques entre transactions frauduleuses et non frauduleuses.
+* Visualiser l’impact de certaines variables (ex. V10, V12, V14) sur la détection de fraude.
+
+Des histogrammes, boxplots et visualisations comparatives sont utilisés pour mettre en évidence :
+
+* La séparation partielle entre fraude et non-fraude.
+* La présence de valeurs extrêmes (*outliers*).
+
+### 2.2 Gestion des outliers
+
+Le dataset applique la méthode de l’**Interquartile Range (IQR)** afin de réduire l’influence des valeurs extrêmes :
+
+* Détermination des seuils (Q1, Q3, IQR).
+* Suppression conditionnelle des observations extrêmes.
+
+Cette étape améliore la stabilité des modèles tout en évitant un sur-apprentissage excessif.
+
+---
+
+## 3. Problématique
+
+La problématique principale est la **détection automatique des transactions frauduleuses** dans un contexte de données :
+
+* Très déséquilibrées.
+* Sensibles aux faux négatifs (fraudes non détectées).
+
+L’objectif n’est pas seulement d’obtenir une bonne précision globale, mais surtout de maximiser la capacité à identifier les fraudes réelles.
+
+---
+
+## 4. Rôle du Machine Learning dans le Dataset de Fraude
+
+Le **Machine Learning** joue un rôle central dans ce notebook, car les règles fixes sont insuffisantes pour détecter des schémas de fraude complexes et évolutifs.
+
+### 4.1 Rééquilibrage des classes
+
+Avant l’apprentissage, le notebook utilise une technique de *sampling* (**NearMiss Algorithm**) afin de :
+
+* Créer un sous-dataset équilibré (50 % fraude / 50 % non-fraude).
+* Éviter que les modèles n’apprennent uniquement la classe majoritaire.
+
+### 4.2 Modèles de classification
+
+Plusieurs algorithmes de Machine Learning sont testés et comparés, notamment :
+
+* Logistic Regression
+* K-Nearest Neighbors (KNN)
+* Support Vector Machine (SVM)
+* Decision Tree / Random Forest
+
+Ces modèles apprennent automatiquement les relations complexes entre les variables et la variable cible (*Class*).
+
+### 4.3 Évaluation des performances
+
+Les performances sont évaluées à l’aide de :
+
+* Accuracy
+* Precision
+* Recall
+* F1-score
+
+Une attention particulière est portée au **Recall de la classe Fraud**, car il mesure la capacité du modèle à détecter les fraudes réelles.
+
+---
+
+## 5. Résultats et interprétation
+
+Les résultats montrent que :
+
+* Certains modèles (SVM, Logistic Regression) offrent un bon compromis entre précision et rappel.
+* Le rééquilibrage des données améliore significativement la détection des fraudes.
+* La réduction des outliers contribue à une meilleure généralisation des modèles.
+
+Le Machine Learning permet ainsi d’identifier des transactions frauduleuses qui seraient difficiles à détecter manuellement.
+
+---
+
+## 6. Conclusion
+
+Ce dataset démontre clairement l’importance du **Machine Learning dans la détection de fraude bancaire**. Grâce à :
+
+* L’analyse exploratoire des données,
+* Le prétraitement (outliers, déséquilibre des classes),
+* L’utilisation de plusieurs modèles de classification,
+
+il est possible de construire un système efficace d’aide à la décision pour les institutions financières. Le Machine Learning transforme un simple dataset de transactions en un outil prédictif puissant capable de réduire les pertes financières liées à la fraude.
